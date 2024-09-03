@@ -1,6 +1,4 @@
-# MLOps_final_year_project
-
-## README: Evapotranspiration Level Prediction Model
+# Evapotranspiration Level Prediction Model
 
 ### Overview
 This project focuses on developing a predictive model to forecast the "Evapotranspiration Level (mm)" based on historical weather and geographical data. The model will leverage date and evapotranspiration-related metrics to generate predictions that can assist in agricultural planning and water resource management.
