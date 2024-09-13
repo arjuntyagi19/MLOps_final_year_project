@@ -49,7 +49,7 @@ The project follows a cloud-compatible MLOps pipeline for GANs, VAEs, and GNNs.
 3. **Model Evaluation**: Validate the generated SMILES using RDKit and compare the models based on defined metrics.
 4. **Model Packaging**: Containerize each model using Docker.
 5. **Deployment**: Deploy models via AWS Elastic Beanstalk, Azure App Services, or Google App Engine.
-6. **CI/CD**: Set up continuous integration and deployment pipelines for all models.
+
 
 ## Installation
 
