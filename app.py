@@ -210,8 +210,42 @@ def analyze_molecules(smiles_list: List[str], training_smiles_set: set) -> Dict:
     results['unique'] = len(unique_smiles)
     return results
 
-# Function to visualize molecules
-def visualize_molecules(smiles_list: List[str], n: int = 5) -> Optional[Image.Image]:
+# # Function to visualize molecules
+# def visualize_molecules(smiles_list: List[str], n: int = 5) -> Optional[Image.Image]:
+#     valid_mols = []
+#     invalid_count = 0
+#     for i, smiles in enumerate(smiles_list):
+#         smiles = smiles.strip().strip('<>').strip()
+#         if not smiles:
+#             invalid_count += 1
+#             continue
+#         try:
+#             mol = Chem.MolFromSmiles(smiles)
+#             if mol is not None:
+#                 valid_mols.append(mol)
+#                 if len(valid_mols) == n:
+#                     break
+#             else:
+#                 invalid_count += 1
+#         except Exception:
+#             invalid_count += 1
+
+#     if not valid_mols:
+#         return None
+
+#     try:
+#         img = Draw.MolsToGridImage(
+#             valid_mols,
+#             molsPerRow=min(3, len(valid_mols)),
+#             subImgSize=(200, 200),
+#             legends=[f"Mol {i+1}" for i in range(len(valid_mols))]
+#         )
+#         return img
+#     except Exception:
+#         return None
+
+
+def visualize_molecules(smiles_list: List[str], n: int = 5) -> Optional[str]:
     valid_mols = []
     invalid_count = 0
     for i, smiles in enumerate(smiles_list):
@@ -234,15 +268,17 @@ def visualize_molecules(smiles_list: List[str], n: int = 5) -> Optional[Image.Im
         return None
 
     try:
-        img = Draw.MolsToGridImage(
-            valid_mols,
-            molsPerRow=min(3, len(valid_mols)),
-            subImgSize=(200, 200),
-            legends=[f"Mol {i+1}" for i in range(len(valid_mols))]
-        )
-        return img
-    except Exception:
+        # Use SVG rendering instead of PIL
+        legends = [f"Mol {i+1}" for i in range(len(valid_mols))]
+        drawer = rdMolDraw2D.MolDraw2DSVG(800, 800)  # Single large SVG
+        drawer.DrawMolecules(valid_mols, legends=legends)
+        drawer.FinishDrawing()
+        svg = drawer.GetDrawingText()
+        return svg
+    except Exception as e:
+        print(f"Error in visualization: {e}")
         return None
+
 
 # Streamlit app
 def main():
@@ -335,11 +371,18 @@ def main():
             plt.tight_layout()
             st.pyplot(fig)
 
-            # Visualize molecules
+            # # Visualize molecules
+            # st.subheader("Sample Molecules")
+            # mol_image = visualize_molecules([prop['smiles'] for prop in analysis['properties']], n=9)
+            # if mol_image:
+            #     st.image(mol_image)
+            # else:
+            #     st.write("No valid molecules to display.")
+
             st.subheader("Sample Molecules")
-            mol_image = visualize_molecules([prop['smiles'] for prop in analysis['properties']], n=9)
-            if mol_image:
-                st.image(mol_image)
+            svg = visualize_molecules([prop['smiles'] for prop in analysis['properties']], n=9)
+            if svg:
+                st.components.v1.html(svg, height=800)
             else:
                 st.write("No valid molecules to display.")
 
