@@ -1,6 +1,7 @@
 # SMILES-Generation: Comparative Analysis of GANs, VAEs, and Graph Neural Networks
 
 
+
 This repository contains the implementation of a comparative analysis of Generative Adversarial Networks (GANs), Variational Autoencoders (VAEs), and Graph Neural Networks (GNNs) for generating valid SMILES (Simplified Molecular Input Line Entry System) strings. These SMILES strings represent molecular structures and are used in drug discovery and material science applications. A web application will also be developed to explore and visualize the results of each model.
 
 ## Table of Contents
