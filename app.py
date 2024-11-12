@@ -10,7 +10,8 @@ from typing import List, Dict, Optional, Tuple
 
 # RDKit for molecule handling
 from rdkit import Chem
-from rdkit.Chem import Draw, Descriptors
+# from rdkit.Chem import Draw, Descriptors
+from rdkit.Chem import Descriptors
 from rdkit import RDLogger
 RDLogger.DisableLog('rdApp.*')
 
@@ -245,39 +246,39 @@ def analyze_molecules(smiles_list: List[str], training_smiles_set: set) -> Dict:
 #         return None
 
 
-def visualize_molecules(smiles_list: List[str], n: int = 5) -> Optional[str]:
-    valid_mols = []
-    invalid_count = 0
-    for i, smiles in enumerate(smiles_list):
-        smiles = smiles.strip().strip('<>').strip()
-        if not smiles:
-            invalid_count += 1
-            continue
-        try:
-            mol = Chem.MolFromSmiles(smiles)
-            if mol is not None:
-                valid_mols.append(mol)
-                if len(valid_mols) == n:
-                    break
-            else:
-                invalid_count += 1
-        except Exception:
-            invalid_count += 1
+# def visualize_molecules(smiles_list: List[str], n: int = 5) -> Optional[str]:
+#     valid_mols = []
+#     invalid_count = 0
+#     for i, smiles in enumerate(smiles_list):
+#         smiles = smiles.strip().strip('<>').strip()
+#         if not smiles:
+#             invalid_count += 1
+#             continue
+#         try:
+#             mol = Chem.MolFromSmiles(smiles)
+#             if mol is not None:
+#                 valid_mols.append(mol)
+#                 if len(valid_mols) == n:
+#                     break
+#             else:
+#                 invalid_count += 1
+#         except Exception:
+#             invalid_count += 1
 
-    if not valid_mols:
-        return None
+#     if not valid_mols:
+#         return None
 
-    try:
-        # Use SVG rendering instead of PIL
-        legends = [f"Mol {i+1}" for i in range(len(valid_mols))]
-        drawer = rdMolDraw2D.MolDraw2DSVG(800, 800)  # Single large SVG
-        drawer.DrawMolecules(valid_mols, legends=legends)
-        drawer.FinishDrawing()
-        svg = drawer.GetDrawingText()
-        return svg
-    except Exception as e:
-        print(f"Error in visualization: {e}")
-        return None
+#     try:
+#         # Use SVG rendering instead of PIL
+#         legends = [f"Mol {i+1}" for i in range(len(valid_mols))]
+#         drawer = rdMolDraw2D.MolDraw2DSVG(800, 800)  # Single large SVG
+#         drawer.DrawMolecules(valid_mols, legends=legends)
+#         drawer.FinishDrawing()
+#         svg = drawer.GetDrawingText()
+#         return svg
+#     except Exception as e:
+#         print(f"Error in visualization: {e}")
+#         return None
 
 
 # Streamlit app
@@ -379,12 +380,12 @@ def main():
             # else:
             #     st.write("No valid molecules to display.")
 
-            st.subheader("Sample Molecules")
-            svg = visualize_molecules([prop['smiles'] for prop in analysis['properties']], n=9)
-            if svg:
-                st.components.v1.html(svg, height=800)
-            else:
-                st.write("No valid molecules to display.")
+            # st.subheader("Sample Molecules")
+            # svg = visualize_molecules([prop['smiles'] for prop in analysis['properties']], n=9)
+            # if svg:
+            #     st.components.v1.html(svg, height=800)
+            # else:
+            #     st.write("No valid molecules to display.")
 
             # Download option
             csv = df_properties.to_csv(index=False)
