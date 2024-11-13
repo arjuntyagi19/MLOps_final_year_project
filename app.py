@@ -407,9 +407,8 @@ def main():
 
     This app uses a Variational Autoencoder (VAE) model trained on the QM9 dataset to generate novel molecular structures.
 
-    - **Developed by**: Your Name
-    - **GitHub**: [YourGitHub](https://github.com/YourGitHub)
-    - **LinkedIn**: [YourLinkedIn](https://www.linkedin.com/in/YourLinkedIn)
+    - **Developed by**: ARJUN,KAUSTUBH,NACHIKET
+    - **GitHub**: https://github.com/arjuntyagi19/MLOps_final_year_project
     """)
 
     # Hide Streamlit style elements
